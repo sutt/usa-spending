@@ -1,0 +1,34 @@
+# USAspending POC Configuration
+
+api:
+  base_url: "https://api.usaspending.gov"
+  endpoint: "/api/v2/search/spending_by_award/"
+  timeout: 30000  # milliseconds
+
+# Award eligibility criteria
+eligibility:
+  # Award type codes: A=Definitive Contract, B=Purchase Order, C=Delivery Order, D=Task Order
+  award_types:
+    - "A"
+    - "B"
+    - "C"
+    - "D"
+  # Minimum award amount in dollars
+  min_amount: 900000
+  # Rolling date window in days (from today backwards)
+  rolling_days: 30
+
+# Output configuration
+output:
+  directory: "./data/awards"
+  # Pretty print JSON files for readability
+  pretty_print: true
+  # Include raw API responses alongside normalized data
+  include_raw: true
+
+# Pagination settings
+pagination:
+  # Number of records per API request
+  page_size: 100
+  # Maximum total records to fetch (safety limit)
+  max_records: 10000

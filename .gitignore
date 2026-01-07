@@ -1,0 +1,17 @@
+# Environment variables
+.env*
+!.env*.example
+.vscode
+
+# Node.js
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# Generated data files
+data/
+*.json
+!config/*.json
+!package.json
+!tsconfig.json

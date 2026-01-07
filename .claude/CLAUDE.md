@@ -1,0 +1,3 @@
+- Run typescript typechecking before completing each task
+- The .devdocs/* directory contains user requests (feats.md) and programmatically generated tasklists (tasklist.md) for implementation. It also contains notes on findings from implementation that may be surprising or are best practice (impl-notes.md).
+- Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
