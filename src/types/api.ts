@@ -137,3 +137,100 @@ export const AWARD_FIELDS = [
   'product_or_service_code',
   'Place of Performance State Code',
 ] as const;
+
+/**
+ * Transaction search request for spending_by_transaction endpoint
+ */
+export interface SpendingByTransactionRequest {
+  filters: FilterObject;
+  fields: string[];
+  limit?: number;
+  page?: number;
+  order?: 'asc' | 'desc';
+  sort?: string;
+}
+
+/**
+ * Transaction search response
+ */
+export interface SpendingByTransactionResponse {
+  limit: number;
+  page_metadata: {
+    page: number;
+    hasNext: boolean;
+    last_record_unique_id?: number;
+    last_record_sort_value?: string;
+  };
+  results: TransactionResult[];
+  messages?: string[];
+}
+
+/**
+ * Individual transaction result from API
+ */
+export interface TransactionResult {
+  // Transaction identifiers (auto-returned)
+  'internal_id'?: string;
+  'generated_internal_id'?: string;
+  'Award ID': string;
+
+  // Action metadata
+  'Action Date': string;
+  'Action Type': string;
+  'Mod': string | null;  // Modification number
+
+  // Amount
+  'Transaction Amount': number;
+
+  // Award type and description
+  'Award Type': string;
+  'Transaction Description': string;
+
+  // Performance period dates
+  'Issued Date': string | null;
+  'Last Date to Order': string | null;
+
+  // Agencies
+  'Awarding Agency': string;
+  'Awarding Sub Agency': string | null;
+  'Funding Agency': string | null;
+
+  // Recipient
+  'Recipient Name': string;
+  'Recipient UEI': string | null;
+
+  // Classification
+  'naics_code': string | null;
+  'product_or_service_code': string | null;
+
+  // Location
+  'pop_state_code': string | null;
+  'pop_city_name': string | null;
+  'pop_country_name': string | null;
+}
+
+/**
+ * Fields to request from transactions endpoint
+ * Note: Transaction endpoint has different field names than awards endpoint
+ */
+export const TRANSACTION_FIELDS = [
+  'Award ID',
+  'Action Date',
+  'Action Type',
+  'Mod',  // Modification number
+  'Transaction Amount',
+  'Award Type',
+  'Transaction Description',
+  'Issued Date',
+  'Last Date to Order',
+  'Awarding Agency',
+  'Awarding Sub Agency',
+  'Funding Agency',
+  'Recipient Name',
+  'Recipient UEI',
+  'naics_code',
+  'product_or_service_code',
+  'pop_state_code',  // Place of performance state
+  'pop_city_name',
+  'pop_country_name',
+] as const;

@@ -1,5 +1,5 @@
 /**
- * Fetch command - fetches awards from USAspending API
+ * Fetch awards command - fetches award-level summaries from USAspending API
  */
 
 import { Command } from 'commander';
@@ -8,10 +8,10 @@ import { DataFetcher } from '../services/fetcher';
 import { StorageService } from '../services/storage';
 
 export function createFetchCommand(): Command {
-  const command = new Command('fetch');
+  const command = new Command('fetch:award');
 
   command
-    .description('Fetch federal contract awards from USAspending API')
+    .description('Fetch award-level summaries from USAspending API (rolled-up data)')
     .option('-d, --days <number>', 'Number of days to look back (overrides config)', parseInt)
     .option('-c, --config <path>', 'Path to config file')
     .option('-o, --output <path>', 'Custom output directory (overrides config)')

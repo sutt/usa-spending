@@ -7,6 +7,7 @@ import * as path from 'path';
 import { format } from 'date-fns';
 import { AppConfig } from '../types/config';
 import { Award, AwardSummary } from '../types/award';
+import { Transaction, TransactionSummary } from '../types/transaction';
 
 export class StorageService {
   private config: AppConfig;
@@ -100,6 +101,64 @@ export class StorageService {
     const files = fs.readdirSync(this.config.output.directory);
     return files
       .filter((f) => f.startsWith('awards_normalized_') && f.endsWith('.json'))
+      .map((f) => path.join(this.config.output.directory, f))
+      .sort()
+      .reverse(); // Most recent first
+  }
+
+  /**
+   * Save transaction data
+   */
+  saveTransactions(raw: any[], normalized: Transaction[], summary: TransactionSummary): {
+    rawPath: string | null;
+    normalizedPath: string;
+    summaryPath: string;
+  } {
+    const paths = {
+      rawPath: null as string | null,
+      normalizedPath: '',
+      summaryPath: '',
+    };
+
+    // Save raw data if configured
+    if (this.config.output.include_raw) {
+      const rawFilename = this.generateFilename('transactions_raw');
+      paths.rawPath = this.writeJson(rawFilename, raw);
+      console.log(`Saved raw transaction data: ${paths.rawPath}`);
+    }
+
+    // Save normalized data
+    const normalizedFilename = this.generateFilename('transactions_normalized');
+    paths.normalizedPath = this.writeJson(normalizedFilename, normalized);
+    console.log(`Saved normalized transaction data: ${paths.normalizedPath}`);
+
+    // Save summary
+    const summaryFilename = this.generateFilename('transactions_summary');
+    paths.summaryPath = this.writeJson(summaryFilename, summary);
+    console.log(`Saved transaction summary: ${paths.summaryPath}`);
+
+    return paths;
+  }
+
+  /**
+   * Read normalized transactions from file
+   */
+  readNormalizedTransactions(filePath: string): Transaction[] {
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`File not found: ${filePath}`);
+    }
+
+    const content = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(content) as Transaction[];
+  }
+
+  /**
+   * List available normalized transaction files
+   */
+  listTransactionFiles(): string[] {
+    const files = fs.readdirSync(this.config.output.directory);
+    return files
+      .filter((f) => f.startsWith('transactions_normalized_') && f.endsWith('.json'))
       .map((f) => path.join(this.config.output.directory, f))
       .sort()
       .reverse(); // Most recent first
