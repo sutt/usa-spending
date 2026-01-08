@@ -15,8 +15,16 @@ eligibility:
     - "D"
   # Minimum award amount in dollars
   min_amount: 900000
-  # Rolling date window in days (from today backwards)
+  # Rolling date window in days (from end date backwards)
   rolling_days: 30
+
+# Date range configuration
+date_range:
+  # If true, use current date as end_date. If false, use fixed_end_date below
+  use_current_date: false
+  # Fixed end date for testing with historical data (YYYY-MM-DD format)
+  # Only used when use_current_date is false
+  fixed_end_date: "2024-09-30"
 
 # Output configuration
 output:
