@@ -11,11 +11,32 @@ import { FilterObject } from '../types/api';
  * Normalize a single transaction from API format to our internal model
  */
 export function normalizeTransaction(apiTransaction: TransactionResult): Transaction {
-  // Generate transaction ID and source URL
+  // Generate transaction ID
   const transactionId = apiTransaction.internal_id ||
                        apiTransaction.generated_internal_id ||
                        `${apiTransaction['Award ID']}_${apiTransaction['Action Date']}`;
-  const awardId = apiTransaction['Award ID'];
+
+  // Extract award ID - handle incomplete IDs from API
+  // Some transactions return just "0001" instead of full contract ID
+  // The full ID is embedded in generated_internal_id like: CONT_AWD_0001_9700_W52P1J13G0027_9700
+  let awardId = apiTransaction['Award ID'];
+
+  // If Award ID is suspiciously short (like "0001"), try to extract from generated_internal_id
+  if (awardId && awardId.length <= 4 && /^\d+$/.test(awardId)) {
+    const genId = apiTransaction.generated_internal_id;
+    if (genId) {
+      // Extract the real contract ID from pattern: CONT_AWD_0001_9700_W52P1J13G0027_9700
+      const parts = genId.split('_');
+      if (parts.length >= 6) {
+        // The real contract ID is typically at index 4
+        const extractedId = parts[4];
+        if (extractedId && extractedId.length > 4) {
+          awardId = extractedId;
+        }
+      }
+    }
+  }
+
   const sourceUrl = `https://www.usaspending.gov/award/${awardId}`;
 
   // Map action type code to description
