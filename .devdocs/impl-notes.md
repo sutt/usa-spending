@@ -164,3 +164,19 @@ This suggests that a 30-day window with $900K+ threshold will fetch thousands of
 - Award Type field exists but returns null
 - Mix of human-readable names and codes
 - HTML error responses instead of JSON error objects
+
+### Transaction Endpoint Specific Issues
+
+**Incomplete Award IDs for Delivery/Task Orders**:
+- Some transactions (especially delivery/task orders) return only the order number (e.g., "0001") in the `Award ID` field
+- The actual parent contract ID is embedded in `generated_internal_id`
+- Example: Award ID returns "0001" but generated_internal_id is "CONT_AWD_0001_9700_W52P1J13G0027_9700" where the real contract ID is "W52P1J13G0027"
+- **Workaround**: Extract real contract ID from `generated_internal_id` when `Award ID` is 4 chars or less and all digits
+- This affects multiple unrelated contracts that all show as "0001", "0002", etc.
+
+**Field Name Differences**:
+- Transaction endpoint uses different field names than awards endpoint
+- `Transaction Amount` instead of `Award Amount`
+- `Mod` instead of `Modification Number`
+- `Transaction Description` instead of `Description`
+- `pop_state_code` instead of `Place of Performance State Code`
