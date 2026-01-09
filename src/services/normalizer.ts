@@ -25,6 +25,8 @@ export function normalizeAward(apiAward: AwardResult): Award {
     award_date: apiAward['Award Date'] || '',
     start_date: apiAward['Start Date'] || null,
     end_date: apiAward['End Date'] || null,
+    last_modified_date: apiAward['Last Modified Date'] || null,
+    base_obligation_date: apiAward['Base Obligation Date'] || null,
 
     // Agency Context
     awarding_agency: apiAward['Awarding Agency'] || '',

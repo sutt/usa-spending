@@ -10,6 +10,8 @@ export interface Award {
   award_date: string;
   start_date: string | null;
   end_date: string | null;
+  last_modified_date: string | null;
+  base_obligation_date: string | null;
 
   // Agency Context
   awarding_agency: string;

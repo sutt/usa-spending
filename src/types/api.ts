@@ -72,6 +72,8 @@ export interface AwardResult {
   'End Date': string;
   'Award Date': string;
   'Last Date to Order': string | null;
+  'Last Modified Date': string | null;
+  'Base Obligation Date': string | null;
 
   // Agencies
   'Awarding Agency': string;
@@ -124,6 +126,8 @@ export interface AwardResult {
 export const AWARD_FIELDS = [
   'Award ID',
   'Award Amount',
+  'Last Modified Date',
+  'Base Obligation Date',
   'Award Type',
   'Start Date',
   'End Date',
