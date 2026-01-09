@@ -36,8 +36,16 @@ export class TransactionFetcher {
 
     const startDate = subDays(endDate, days);
 
+    // If empty array, use all known award types
+    // Contracts: A, B, C, D
+    // Grants: 02, 03, 04, 05, 06, 07, 08, 09, 10, 11
+    const ALL_AWARD_TYPES = ['A', 'B', 'C', 'D', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'];
+    const awardTypes = this.config.eligibility.award_types.length > 0
+      ? this.config.eligibility.award_types
+      : ALL_AWARD_TYPES;
+
     const filters: FilterObject = {
-      award_type_codes: this.config.eligibility.award_types,
+      award_type_codes: awardTypes,
       award_amounts: [
         {
           lower_bound: this.config.eligibility.min_amount,

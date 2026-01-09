@@ -32,11 +32,20 @@ export class DataFetcher {
     const startDate = subDays(endDate, days);
 
     console.log(`Date range: ${format(startDate, 'yyyy-MM-dd')} to ${format(endDate, 'yyyy-MM-dd')}`);
-    console.log(`Award types: ${this.config.eligibility.award_types.join(', ')}`);
+
+    // If empty array, use all known award types
+    // Contracts: A, B, C, D
+    // Grants: 02, 03, 04, 05, 06, 07, 08, 09, 10, 11
+    const ALL_AWARD_TYPES = ['A', 'B', 'C', 'D', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'];
+    const awardTypes = this.config.eligibility.award_types.length > 0
+      ? this.config.eligibility.award_types
+      : ALL_AWARD_TYPES;
+
+    console.log(`Award types: ${this.config.eligibility.award_types.length > 0 ? awardTypes.join(', ') : 'ALL (' + awardTypes.join(', ') + ')'}`);
     console.log(`Min amount: $${this.config.eligibility.min_amount.toLocaleString()}`);
 
-    return {
-      award_type_codes: this.config.eligibility.award_types,
+    const filters: FilterObject = {
+      award_type_codes: awardTypes,
       award_amounts: [
         {
           lower_bound: this.config.eligibility.min_amount,
@@ -49,6 +58,8 @@ export class DataFetcher {
         },
       ],
     };
+
+    return filters;
   }
 
   /**

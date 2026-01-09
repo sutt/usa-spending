@@ -37,8 +37,8 @@ function validateConfig(config: AppConfig): void {
   if (!config.api?.endpoint) {
     throw new Error('Missing required config: api.endpoint');
   }
-  if (!config.eligibility?.award_types || config.eligibility.award_types.length === 0) {
-    throw new Error('Missing required config: eligibility.award_types');
+  if (!config.eligibility?.award_types || !Array.isArray(config.eligibility.award_types)) {
+    throw new Error('Missing required config: eligibility.award_types (must be an array)');
   }
   if (config.eligibility?.min_amount === undefined) {
     throw new Error('Missing required config: eligibility.min_amount');
