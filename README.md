@@ -35,7 +35,11 @@ api:
 eligibility:
   award_types: ["A", "B", "C", "D"]  # Award type codes
   min_amount: 900000                  # Minimum $900K
-  rolling_days: 30                    # Last 30 days
+  rolling_days: 30                    # Days to look back from end date
+
+date_range:
+  use_current_date: false             # If true, fetch from today backwards
+  fixed_end_date: "2024-09-30"        # Fixed date for testing (when use_current_date is false)
 
 output:
   directory: "./data/awards"

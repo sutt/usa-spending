@@ -21,7 +21,7 @@ eligibility:
 # Date range configuration
 date_range:
   # If true, use current date as end_date. If false, use fixed_end_date below
-  use_current_date: false
+  use_current_date: true
   # Fixed end date for testing with historical data (YYYY-MM-DD format)
   # Only used when use_current_date is false
   fixed_end_date: "2024-09-30"
@@ -39,4 +39,4 @@ pagination:
   # Number of records per API request
   page_size: 100
   # Maximum total records to fetch (safety limit)
-  max_records: 10000
+  max_records: 1000

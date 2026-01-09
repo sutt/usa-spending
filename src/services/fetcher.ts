@@ -23,9 +23,12 @@ export class DataFetcher {
    */
   private buildFilters(daysOverride?: number): FilterObject {
     const days = daysOverride || this.config.eligibility.rolling_days;
-    // Use September 2024 data for testing (known good data)
-    // TODO: Update this to use recent data once API is stable
-    const endDate = new Date('2024-09-30');
+
+    // Determine end date from config
+    const endDate = this.config.date_range.use_current_date
+      ? new Date()
+      : new Date(this.config.date_range.fixed_end_date);
+
     const startDate = subDays(endDate, days);
 
     console.log(`Date range: ${format(startDate, 'yyyy-MM-dd')} to ${format(endDate, 'yyyy-MM-dd')}`);

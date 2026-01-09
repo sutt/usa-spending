@@ -29,9 +29,11 @@ export class TransactionFetcher {
     // Use provided days or config default
     const days = daysBack || this.config.eligibility.rolling_days;
 
-    // Calculate date range
-    // NOTE: Currently using hardcoded dates for testing, but should use rolling window
-    const endDate = new Date('2024-09-29');
+    // Determine end date from config
+    const endDate = this.config.date_range.use_current_date
+      ? new Date()
+      : new Date(this.config.date_range.fixed_end_date);
+
     const startDate = subDays(endDate, days);
 
     const filters: FilterObject = {

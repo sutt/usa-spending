@@ -5,6 +5,7 @@
 export interface AppConfig {
   api: ApiConfig;
   eligibility: EligibilityConfig;
+  date_range: DateRangeConfig;
   output: OutputConfig;
   pagination: PaginationConfig;
 }
@@ -19,6 +20,11 @@ export interface EligibilityConfig {
   award_types: string[];
   min_amount: number;
   rolling_days: number;
+}
+
+export interface DateRangeConfig {
+  use_current_date: boolean;
+  fixed_end_date: string;
 }
 
 export interface OutputConfig {
