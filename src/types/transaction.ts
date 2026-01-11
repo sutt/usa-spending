@@ -65,4 +65,6 @@ export interface TransactionSummary {
   by_action_type: Record<string, number>;
   by_award_type: Record<string, number>;
   unique_awards: number;
+  truncated?: boolean;
+  truncation_reason?: string;
 }

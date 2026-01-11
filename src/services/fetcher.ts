@@ -99,6 +99,9 @@ export class DataFetcher {
       byType[award.award_type] = (byType[award.award_type] || 0) + 1;
     });
 
+    // Check for truncation (API limit is 10,000 records)
+    const truncated = awards.length === 10000;
+
     return {
       total_records: awards.length,
       date_range: {
@@ -108,6 +111,8 @@ export class DataFetcher {
       fetch_timestamp: new Date().toISOString(),
       total_amount: totalAmount,
       by_type: byType,
+      truncated,
+      truncation_reason: truncated ? 'API pagination limit (10,000 records)' : undefined,
     };
   }
 }

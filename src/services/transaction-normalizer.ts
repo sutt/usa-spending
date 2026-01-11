@@ -140,6 +140,9 @@ export function generateTransactionSummary(
     end: timePeriod?.end_date || '',
   };
 
+  // Check for truncation (API limit is 10,000 records)
+  const truncated = transactions.length === 10000;
+
   return {
     total_records: transactions.length,
     date_range: dateRange,
@@ -148,5 +151,7 @@ export function generateTransactionSummary(
     by_action_type: byActionType,
     by_award_type: byAwardType,
     unique_awards: uniqueAwards,
+    truncated,
+    truncation_reason: truncated ? 'API pagination limit (10,000 records)' : undefined,
   };
 }

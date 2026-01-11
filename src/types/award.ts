@@ -43,4 +43,6 @@ export interface AwardSummary {
   fetch_timestamp: string;
   total_amount: number;
   by_type: Record<string, number>;
+  truncated?: boolean;
+  truncation_reason?: string;
 }

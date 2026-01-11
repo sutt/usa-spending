@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { AppConfig } from '../types/config';
 import { Award, AwardSummary } from '../types/award';
 import { Transaction, TransactionSummary } from '../types/transaction';
+import { CompleteFetchResult } from '../types/complete-fetch';
 
 export class StorageService {
   private config: AppConfig;
@@ -162,5 +163,37 @@ export class StorageService {
       .map((f) => path.join(this.config.output.directory, f))
       .sort()
       .reverse(); // Most recent first
+  }
+
+  /**
+   * Save complete fetch results (two-stage fetch: transactions + awards)
+   */
+  saveCompleteFetch(result: CompleteFetchResult): {
+    transactionsPath: string;
+    awardsPath: string;
+    statsPath: string;
+  } {
+    const paths = {
+      transactionsPath: '',
+      awardsPath: '',
+      statsPath: '',
+    };
+
+    // Save transactions
+    const txFilename = this.generateFilename('complete_transactions');
+    paths.transactionsPath = this.writeJson(txFilename, result.transactions);
+    console.log(`\n📁 Saved transactions: ${paths.transactionsPath}`);
+
+    // Save awards
+    const awFilename = this.generateFilename('complete_awards');
+    paths.awardsPath = this.writeJson(awFilename, result.awards);
+    console.log(`📁 Saved awards: ${paths.awardsPath}`);
+
+    // Save stats
+    const statsFilename = this.generateFilename('complete_stats');
+    paths.statsPath = this.writeJson(statsFilename, result.stats);
+    console.log(`📁 Saved stats: ${paths.statsPath}`);
+
+    return paths;
   }
 }

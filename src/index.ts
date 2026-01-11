@@ -6,6 +6,7 @@
 import { Command } from 'commander';
 import { createFetchCommand } from './commands/fetch';
 import { createFetchTransactionsCommand } from './commands/fetch-transactions';
+import { createFetchCompleteCommand } from './commands/fetch-complete';
 import { createAnalyzeCommand } from './commands/analyze';
 import { createConfigCommand } from './commands/config';
 
@@ -19,6 +20,7 @@ program
 // Add commands
 program.addCommand(createFetchCommand());
 program.addCommand(createFetchTransactionsCommand());
+program.addCommand(createFetchCompleteCommand());
 program.addCommand(createAnalyzeCommand());
 program.addCommand(createConfigCommand());
 
