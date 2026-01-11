@@ -10,6 +10,7 @@ export interface Transaction {
   // Transaction identifiers
   transaction_id: string;
   award_id: string;
+  generated_internal_id: string | null;
 
   // Action metadata
   action_date: string;

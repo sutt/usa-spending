@@ -54,6 +54,7 @@ export function normalizeTransaction(apiTransaction: TransactionResult): Transac
     // Identifiers
     transaction_id: transactionId,
     award_id: awardId,
+    generated_internal_id: apiTransaction.generated_internal_id || null,
 
     // Action metadata
     action_date: apiTransaction['Action Date'] || '',

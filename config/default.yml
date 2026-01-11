@@ -10,13 +10,13 @@ eligibility:
   # Award type codes: A=Definitive Contract, B=Purchase Order, C=Delivery Order, D=Task Order
   # Use empty array [] to fetch ALL award types (contracts, grants, loans, etc.)
   # Or specify types: ["A", "B", "C", "D"] for contracts only
-  award_types: [] 
+  # award_types: [] 
   # Contracts only:
-  # award_types:
-  #   - "A"  # Definitive Contract
-  #   - "B"  # Purchase Order
-  #   - "C"  # Delivery Order
-  #   - "D"  # Task Order
+  award_types:
+    - "A"  # Definitive Contract
+    - "B"  # Purchase Order
+    - "C"  # Delivery Order
+    - "D"  # Task Order
   # Grants:
   #   - "02"  # Block Grant
   #   - "03"  # Formula Grant
@@ -25,7 +25,7 @@ eligibility:
   # Minimum award amount in dollars
   min_amount: 900000
   # Rolling date window in days (from end date backwards)
-  rolling_days: 30
+  rolling_days: 90
 
 # Date range configuration
 date_range:
@@ -33,11 +33,11 @@ date_range:
   use_current_date: false
   # Fixed end date for testing with historical data (YYYY-MM-DD format)
   # Only used when use_current_date is false
-  fixed_end_date: "2025-03-01"
+  fixed_end_date: "2026-01-09"
 
 # Output configuration
 output:
-  directory: "./data/round2"
+  directory: "./data/round3"
   # Pretty print JSON files for readability
   pretty_print: true
   # Include raw API responses alongside normalized data
@@ -48,4 +48,4 @@ pagination:
   # Number of records per API request
   page_size: 100
   # Maximum total records to fetch (safety limit)
-  max_records: 1000
+  max_records: 100000
