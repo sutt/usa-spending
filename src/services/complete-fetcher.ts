@@ -136,7 +136,32 @@ export class CompleteFetcher {
     console.log('\n┌─ STAGE 2: FETCH AWARDS BY ID ─────────────────────────────┐\n');
 
     const batchSize = this.config.pagination.page_size;
-    const awards = await this.client.fetchAwardsByIds(awardIds, batchSize);
+    const allAwards = await this.client.fetchAwardsByIds(awardIds, batchSize);
+
+    console.log(`\n✓ Fetched ${allAwards.length} award records`);
+
+    // Deduplicate awards - keep most recent version by last_modified_date
+    console.log('\nDeduplicating awards (keeping most recent by last_modified_date)...');
+
+    const awardMap = new Map<string, Award>();
+    allAwards.forEach(award => {
+      const existing = awardMap.get(award.award_id);
+      if (!existing) {
+        awardMap.set(award.award_id, award);
+      } else {
+        // Compare dates and keep more recent
+        const existingDate = existing.last_modified_date || '';
+        const currentDate = award.last_modified_date || '';
+        if (currentDate > existingDate) {
+          awardMap.set(award.award_id, award);
+        }
+      }
+    });
+
+    const awards = Array.from(awardMap.values());
+    const duplicatesRemoved = allAwards.length - awards.length;
+
+    console.log(`✓ Deduplicated to ${awards.length} unique awards (removed ${duplicatesRemoved} duplicates)`);
 
     // Find missing IDs
     const fetchedIds = new Set(awards.map(a => a.award_id));
